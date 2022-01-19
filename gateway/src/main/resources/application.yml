@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+#zuul:
+#  routes:
+#    auth:
+#      path: /api/
+#      url: 'http://localhost:8090'
+
+ribbon:
+  eureka:
+    enabled: false
