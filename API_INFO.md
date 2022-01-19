@@ -12,5 +12,4 @@
 
 **GET**		*/api/test/admin*  	= access Admin's content
 
-
-
+**GET** 	*/api/allReports*	= access All reports (Admin can access only)
