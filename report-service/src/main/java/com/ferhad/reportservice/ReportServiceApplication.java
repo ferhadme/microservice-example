@@ -1,13 +1,13 @@
-package com.ferhad.common;
+package com.ferhad.reportservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CommonApplication {
+public class ReportServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CommonApplication.class, args);
+		SpringApplication.run(ReportServiceApplication.class, args);
 	}
 
 }
