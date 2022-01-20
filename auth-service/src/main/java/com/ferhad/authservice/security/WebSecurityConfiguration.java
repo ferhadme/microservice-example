@@ -21,6 +21,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtRequestFilter jwtRequestFilter;
     private final UserDetailsService jwtService;
+    private final PasswordEncoder passwordEncoder;
 
     @Bean
     @Override
@@ -44,13 +45,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder builder) throws Exception {
-        builder.userDetailsService(jwtService).passwordEncoder(passwordEncoder());
+        builder.userDetailsService(jwtService).passwordEncoder(passwordEncoder);
     }
 }

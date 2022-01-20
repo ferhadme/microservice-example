@@ -7,6 +7,8 @@ import com.ferhad.authservice.model.User;
 import com.ferhad.authservice.repository.UserRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -59,6 +61,12 @@ public class JwtUserDetailService implements UserDetailsService {
     }
 
     private void authenticate(String username, String userPassword) throws Exception {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, userPassword));
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, userPassword));
+        } catch (DisabledException e) {
+            throw new Exception("User is disabled");
+        } catch (BadCredentialsException e) {
+            throw new Exception("Bad credentials from user");
+        }
     }
 }
