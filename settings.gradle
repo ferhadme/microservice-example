@@ -1,8 +1,3 @@
 rootProject.name = 'kafka-exam'
 
-include 'gateway'
-include 'common'
-include 'eureka-server'
-include 'account-service'
-include 'auth-service'
-include 'report-service'
+include ':gateway', ':eureka-server', ':account-service', ':auth-service', ':report-service', ':common'

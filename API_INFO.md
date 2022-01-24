@@ -2,15 +2,11 @@
 
 ***Gateway endpoints***
 
-**POST**	*/api/auth/signup* 	= signup new account
+**POST**	*/api/register* 	= register new account
 
-**POST**	*/api/auth/signin* 	= login an account
+**POST**	*/api/login* 			= login an account
 
-**GET**		*/api/all* 	= retrieve public content
+**POST**  */api/logout*			= logout
 
-**GET**		*/api/user*	= access User's content
-
-**GET**		*/api/admin*  	= access Admin's content
-
-**GET** 	*/api/allReports*	= access All reports (Admin can access only)
+**GET** 	*/api/reports*		= access user's reports
 

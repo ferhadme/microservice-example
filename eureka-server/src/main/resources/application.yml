@@ -6,23 +6,6 @@ server:
   port: 8761
 
 eureka:
-  instance:
-    hostname: discoveryservice
-    prefer-ip-address: true
   client:
     register-with-eureka: false
     fetch-registry: false
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-  server:
-    wait-time-in-ms-when-sync-empty: 5
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-logging:
-  file:
-    name: ${user.dir}/logs.log
