@@ -2,6 +2,7 @@
 * Port: 8090
 
 ### Auth Service (auth-service)
+* Port: 9191
 
 ### Common Dependencies (common)
 
@@ -9,6 +10,7 @@
 * Port: 8761
 
 ### Zuul API Gateway (gateway)
-* Port: 8080
+* Port: 8088
 
 ### Report Service (report-service)
+* Port: 8095

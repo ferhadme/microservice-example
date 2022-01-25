@@ -10,6 +10,9 @@ zuul:
     auth:
       stripPrefix: false
       serviceId: auth-service
+    reports:
+      stripPrefix: false
+      serviceId: report-service
   host:
     socket-timeout-millis: 30000
 
@@ -23,6 +26,10 @@ eureka:
 auth-service:
   ribbon:
     listOfServers: http://localhost:9191
+
+report-service:
+  ribbon:
+    listOfServers: http://localhost:8095
 
 ribbon:
   eureka:
