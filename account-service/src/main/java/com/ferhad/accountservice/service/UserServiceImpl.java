@@ -18,6 +18,7 @@ import java.util.List;
 public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PublisherService publisherService;
 
     @Override
     public void saveUser(UserRequest request, StreamObserver<UserResponse> responseObserver) {
@@ -37,6 +38,8 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
                 .build();
         responseObserver.onNext(userResponse);
         responseObserver.onCompleted();
+        publisherService.sendMessage("user_registration",
+                "User (" + user.getUsername() + ") has been registered");
     }
 
     @Override
@@ -67,9 +70,9 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
     public void getUser(UserName request, StreamObserver<UserResponse> responseObserver) {
         UserAcc userAcc = userRepository.findByUsername(request.getUsername());
         List<Role> roles = new ArrayList<>();
-        userAcc.getRoles().forEach(role -> {
+        for (RoleAcc role : userAcc.getRoles()) {
             roles.add(Role.newBuilder().setRoleName(role.getName()).build());
-        });
+        }
         UserResponse userResponse = UserResponse.newBuilder()
                 .setUsername(userAcc.getUsername())
                 .setPassword(userAcc.getPassword())

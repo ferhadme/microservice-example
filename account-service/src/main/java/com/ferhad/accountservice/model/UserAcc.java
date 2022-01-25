@@ -20,9 +20,10 @@ public class UserAcc {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "userSequence", sequenceName = "user_seq")
     private Long id;
+    @Column(unique = true)
     private String username;
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<RoleAcc> roles = new HashSet<>();
+    @ManyToMany(mappedBy = "users")
+    private Set<RoleAcc> roles;
 }

@@ -29,6 +29,9 @@ dependencies {
 
 	implementation 'net.devh:grpc-server-spring-boot-starter:2.12.0.RELEASE'
 	implementation project(':common')
+
+	implementation 'org.springframework.kafka:spring-kafka'
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 
 dependencyManagement {

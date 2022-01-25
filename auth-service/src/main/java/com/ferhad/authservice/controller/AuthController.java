@@ -81,11 +81,9 @@ public class AuthController {
                         user.getRoles().stream().map(RoleDto::getName).collect(Collectors.toList()),
                         algorithm
                 );
-                Map<String, String> tokens = new HashMap<>();
-                tokens.put("access_token", access_token);
-                tokens.put("refresh_token", refresh_token);
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+                response.setHeader("access_token", access_token);
+                response.setHeader("refresh_token", refresh_token);
             } catch (Exception e) {
                 response.setHeader("error", e.getMessage());
                 response.setStatus(HttpStatus.FORBIDDEN.value());

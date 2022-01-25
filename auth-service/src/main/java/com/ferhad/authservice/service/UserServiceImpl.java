@@ -68,7 +68,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .build();
 
         UserResponse userResponse = userServiceBlockingStub.getUser(userName);
-        return new UserDto(userResponse.getUsername(), null, null);
+        Set<RoleDto> roleDtos =
+                userResponse.getRolesList().stream().map(role -> new RoleDto(role.getRoleName())).collect(Collectors.toSet());
+        return new UserDto(userResponse.getUsername(), userResponse.getPassword(), roleDtos);
     }
 
     @Override

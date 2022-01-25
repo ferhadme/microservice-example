@@ -60,7 +60,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 Algorithm.HMAC256(jwtSecret.getBytes())
         );
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+        //new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+        response.setHeader("access_token", tokens.get("access_token"));
+        response.setHeader("refresh_token", tokens.get("refresh_token"));
     }
 
 }

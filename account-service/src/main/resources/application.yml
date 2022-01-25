@@ -2,6 +2,9 @@ grpc:
   server:
     port: 9898
 
+server:
+  port: 8090
+
 spring:
   application:
     name: account-service
@@ -17,8 +20,14 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      bootstrap-servers: localhost:9092
+      
 eureka:
   client:
     service-url:
       default-zone: http://discoveryservice:8761/eureka
+

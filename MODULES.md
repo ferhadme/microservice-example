@@ -1,5 +1,6 @@
 ### Account Service (account-service)
 * Port: 8090
+* Publisher
 
 ### Auth Service (auth-service)
 * Port: 9191
@@ -14,3 +15,4 @@
 
 ### Report Service (report-service)
 * Port: 8095
+* Consumer
