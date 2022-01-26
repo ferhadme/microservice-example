@@ -23,7 +23,6 @@ Acts as a reverse proxy to accept all application programming interface (API) ca
 
 ### Account Service (account-service)
 Handles all database-related processes such as account creation, account validation, and etc. 
-
 Plays as gRPC server to Auth Service
 
 Plays as Producer in Producer/Consumer relation in Kafka. For simple demonstration, just produces messages like "Username with @username has been registered" 
@@ -63,10 +62,10 @@ All of endpoints can be accessed by only appropriate accounts. For example, only
 Assuming you run any UN*X system and have Gradle installed, follow below steps
 ### Running Apache ZooKeeper and Apache Kafka
 ``` sh
-# cd $ZOOKEEPER_HOME
-# ./bin/zkServer.sh start
-# cd $KAFKA_HOME
-# ./bin/kafka-server-start.sh config/server.properties
+% cd $ZOOKEEPER_HOME
+% ./bin/zkServer.sh start
+% cd $KAFKA_HOME
+% ./bin/kafka-server-start.sh config/server.properties
 ```
 
 ### Compiling protobuf files for gRPC communication
