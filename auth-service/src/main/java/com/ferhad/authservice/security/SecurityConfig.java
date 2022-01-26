@@ -4,10 +4,8 @@ import com.ferhad.authservice.security.filter.CustomAuthenticationFilter;
 import com.ferhad.authservice.security.filter.CustomAuthorizationFilter;
 import com.ferhad.authservice.security.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -38,6 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         customAuthenticationFilter.setFilterProcessesUrl("/auth/login");
 
         http
+                .cors()
+                .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -63,4 +63,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public JwtUtils jwtUtils() {
         return new JwtUtils();
     }
+
 }
