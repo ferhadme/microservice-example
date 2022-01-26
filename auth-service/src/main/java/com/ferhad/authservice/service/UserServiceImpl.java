@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDto saveUser(UserDto userDto) {
+        System.out.println("saveUser from serviceImpl called");
         UserRequest userRequest = UserRequest.newBuilder()
                 .setUsername(userDto.getUsername())
                 .setPassword(passwordEncoder.encode(userDto.getPassword()))

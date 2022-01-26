@@ -43,6 +43,7 @@ public class AuthController {
 
     @PostMapping("/user/save")
     public ResponseEntity<UserDto> saveUser(@RequestBody UserDto userDto) {
+        System.out.println("saveUser called");
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/user/save").toUriString());
         return ResponseEntity
                 .created(uri)

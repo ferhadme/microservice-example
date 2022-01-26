@@ -21,11 +21,17 @@ public class AccountServiceApplication {
 	private final UserRepository userRepository;
 	private final RoleRepository roleRepository;
 
+	/*
+	 * encoded version of [pass] with BCrypt Password Encoder
+	 * Just for testing
+	 */
+	private static final String ENCODED_PASSWORD = "$2a$10$5CU./i2Ge5iZxWhZgxVsPu43vkP7hFoZfZnHJgXaQhQbrDKyf.K.a";
+
 	public static void main(String[] args) {
 		SpringApplication.run(AccountServiceApplication.class, args);
 	}
 
-	@Bean
+	// @Bean
 	CommandLineRunner commandLineRunner() {
 		return args -> {
 			RoleAcc roleAcc = RoleAcc.builder()
@@ -36,7 +42,7 @@ public class AccountServiceApplication {
 			rolesOfAdmin.add(roleAcc);
 			UserAcc admin = UserAcc.builder()
 					.username("admin")
-					.password("pass")
+					.password(ENCODED_PASSWORD)
 					.roles(rolesOfAdmin)
 					.build();
 			userRepository.save(admin);
@@ -46,10 +52,10 @@ public class AccountServiceApplication {
 					.build();
 			roleRepository.save(roleAcc1);
 			Set<RoleAcc> rolesOfUser = new HashSet<>();
-			rolesOfUser.add(roleAcc);
+			rolesOfUser.add(roleAcc1);
 			UserAcc user = UserAcc.builder()
 					.username("user")
-					.password("pass")
+					.password(ENCODED_PASSWORD)
 					.roles(rolesOfUser)
 					.build();
 			userRepository.save(user);

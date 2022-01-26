@@ -23,7 +23,16 @@ public class UserAcc {
     @Column(unique = true)
     private String username;
     private String password;
-
-    @ManyToMany(mappedBy = "users")
+/*
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
     private Set<RoleAcc> roles;
+ */
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "account_roles",
+            joinColumns = {@JoinColumn(name = "account_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    )
+    private Set<RoleAcc> roles;
+
 }

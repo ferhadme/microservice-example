@@ -4,11 +4,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ferhad.authservice.model.UserDto;
 import com.ferhad.authservice.security.utils.JwtUtils;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,21 +23,11 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
-    @Value("${jwt.secret}")
-    private String jwtSecret;
-    private JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
     
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
-        this(authenticationManager);
-        this.jwtUtils = jwtUtils;
-    }
-
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
-
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -57,7 +44,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Map<String, String> tokens = jwtUtils.createAccessAndRefreshToken(
                 user.getUsername(), request.getRequestURL().toString(), "roles",
                 user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()),
-                Algorithm.HMAC256(jwtSecret.getBytes())
+                Algorithm.HMAC256(JwtUtils.JWT_SECRET.getBytes())
         );
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         //new ObjectMapper().writeValue(response.getOutputStream(), tokens);

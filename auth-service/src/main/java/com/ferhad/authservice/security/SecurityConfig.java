@@ -2,9 +2,12 @@ package com.ferhad.authservice.security;
 
 import com.ferhad.authservice.security.filter.CustomAuthenticationFilter;
 import com.ferhad.authservice.security.filter.CustomAuthorizationFilter;
+import com.ferhad.authservice.security.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CustomAuthenticationFilter customAuthenticationFilter =
-                new CustomAuthenticationFilter(authenticationManager());
+                new CustomAuthenticationFilter(authenticationManager(), jwtUtils());
         customAuthenticationFilter.setFilterProcessesUrl("/auth/login");
 
         http
@@ -54,5 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
+    }
+
+    @Bean
+    public JwtUtils jwtUtils() {
+        return new JwtUtils();
     }
 }

@@ -11,6 +11,7 @@ import java.util.Map;
 public class JwtUtils {
     private static final int ACCESS_TOKEN_EXPIRATION = 10 * 60 * 3600;
     private static final int REFRESH_TOKEN_EXPIRATION = 30 * 60 * 3600;
+    public static final String JWT_SECRET = "gSjOhVwYHmb5rOhn10Cqus5MK8BNUr6QJhWH9TL2RuFmsdi51dOXF6BEQx39jGB";
 
     public Map<String, String> createAccessAndRefreshToken(String subject, String issuer, String claimName, List<?> authorities, Algorithm algorithm) {
         Map<String, String> tokens = new HashMap<>();

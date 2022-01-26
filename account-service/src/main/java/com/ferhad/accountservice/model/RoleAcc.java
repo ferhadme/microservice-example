@@ -10,6 +10,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@Table(name = "roles")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -20,7 +21,4 @@ public class RoleAcc {
     private Long id;
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable
-    private Set<UserAcc> users;
 }

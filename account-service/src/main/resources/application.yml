@@ -9,7 +9,7 @@ spring:
   application:
     name: account-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/task
+    url: jdbc:postgresql://localhost:5432/microservices
     username: ferhad
     password: Ferhad2002.
   jpa:
