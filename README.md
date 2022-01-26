@@ -22,10 +22,11 @@ Holds the information about all client-service applications. Every microservice 
 Acts as a reverse proxy to accept all application programming interface (API) calls, aggregate the various services required to fulfill them, and return the appropriate result
 
 ### Account Service (account-service)
-Handles all database-related processes such as account creation, account validation, and etc. 
+Handles all database-related processes such as account creation, account validation, and etc.
+
 Plays as gRPC server to Auth Service
 
-Plays as Producer in Producer/Consumer relation in Kafka. For simple demonstration, just produces messages like "Username with @username has been registered" 
+Plays as Producer in Producer/Consumer relation in Kafka. For simple demonstration, just produces messages like "Username with 'username' has been registered" 
 
 ### Auth Service (auth-service)
 Handles all authentication/authorization work. 
@@ -33,7 +34,7 @@ Handles all authentication/authorization work.
 Plays as gRPC client to Account Service
 
 ### Report Service (report-service)
-Plays as Consumer in Producer/Consumer relation in Kafka. It consumes messages which Account Service (Producer) produces like "Username with @username has been registered"
+Plays as Consumer in Producer/Consumer relation in Kafka. It consumes messages which Account Service (Producer) produces like "Username with 'username' has been registered"
 
 ### Common (common)
 Not microservice. Just holds common dependencies like Protobuf files for gRPC Services.
@@ -60,6 +61,7 @@ All of endpoints can be accessed by only appropriate accounts. For example, only
 
 ## Compilation and Running
 Assuming you run any UN*X system and have Gradle installed, follow below steps
+
 ### Running Apache ZooKeeper and Apache Kafka
 ``` sh
 % cd $ZOOKEEPER_HOME
