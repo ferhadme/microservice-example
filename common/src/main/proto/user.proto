@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package com.ferhad.common;
+
+option java_multiple_files = true;
+option java_package = "com.ferhad.common";
+
+service UserService {
+  rpc saveUser(UserRequest) returns (UserResponse);
+  rpc saveRole(Role) returns (Role);
+  rpc addRoleToUser(RoleToUser) returns (Void);
+  rpc getUser(UserName) returns (UserResponse);
+  rpc getUsers(Void) returns (AllUsers);
+}
+
+message AllUsers {
+  repeated UserResponse users = 1;
+}
+
+message Void {
+}
+
+message Role {
+  string roleName = 1;
+}
+
+message UserName {
+  string username = 1;
+}
+
+message RoleToUser {
+  string username = 1;
+  string roleName = 2;
+}
+
+message UserRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message UserResponse {
+  string username = 1;
+  string password = 2;
+  repeated Role roles = 3;
+}

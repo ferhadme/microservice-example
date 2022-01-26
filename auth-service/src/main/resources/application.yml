@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: auth-service
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+server:
+  port: 9191
+
+grpc:
+  client:
+    account-service:
+      address: 'static://127.0.0.1:9898'
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+
+
