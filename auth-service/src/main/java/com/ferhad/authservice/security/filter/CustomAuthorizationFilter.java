@@ -29,10 +29,13 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         if (request.getServletPath().equals("/auth/login") || request.getServletPath().equals("/auth/token/refresh")) {
             filterChain.doFilter(request, response);
         } else {
-            System.out.println("AUTHORIZATION");
+            Iterator<String> headers = request.getHeaderNames().asIterator();
+            while (headers.hasNext()) {
+                System.out.println(headers.next());
+            }
+            System.out.println("---------");
             String authorizationHeader = request.getHeader("Authorization");
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-                System.out.println("TOKEN IS VALID");
                 try {
                     String token = authorizationHeader.substring("Bearer ".length());
                     Algorithm algorithm = Algorithm.HMAC256(JwtUtils.JWT_SECRET.getBytes());
