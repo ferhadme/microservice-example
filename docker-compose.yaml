@@ -1,21 +1,20 @@
 version: '3.1'
 services:
-#  db:
-#    hostname: mysql
-#    image: mysql:8.0.23
-#    restart: always
-#    volumes:
-#      - db_data:/var/lib/mysql
-#    environment:
-#      MYSQL_ROOT_PASSWORD: password
-#    ports:
-#      - 3306:3306
-#  adminer:
-#    hostname: mysql
-#    image: adminer
-#    restart: always
-#    ports:
-#      - 8580:8080
+  postgres:
+    image: postgres:10.5
+    restart: always
+    environment:
+      - POSTGRES_USER=ferhad
+      - POSTGRES_PASSWORD=Ferhad2002.
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
   kafdrop:
     image: obsidiandynamics/kafdrop
     restart: "no"
