@@ -13,7 +13,10 @@ Apache ZooKeeper and Apache Kafka should be installed in the system.
 ## Modules
 Project is written using Gradle build tool.
 
-There are 5 modules in the project
+There are 5 modules in the project. To see modules run following command
+``` sh
+$ gradle projects
+```
 
 ### Eureka Server (eureka-server)
 Holds the information about all client-service applications. Every microservice will register into the Eureka server and Eureka server knows all the client applications running on each port and IP address.
@@ -73,44 +76,38 @@ Assuming you run any UN*X system and have Gradle installed, follow below steps
 ### Compiling protobuf files for gRPC communication
 
 ``` sh
-$ cd $PROJECT_HOME/common
-$ gradle assemble
+$ gradle jar
 ```
 
 It will generate Java classes from protobuf files and it will be used as dependency by gRPC services for communication
 
 ### Running Eureka Server 
 ``` sh
-$ cd $PROJECT_HOME/eureka-server
-$ gradle bootRun
+$ gradle :eureka-server:bootRun
 ```
 
 Because of being discovery server, Eureka Server should be ran first among all microservices
 
 ### Running Account Service
 ``` sh
-$ cd $PROJECT_HOME/account-service
-$ gradle bootRun
+$ gradle :account-service:bootRun
 ```
 
 Account Service should be ran before Auth Service. Because Account Service is gRPC server for Auth Service
 
 ### Running Auth Service
 ``` sh
-$ cd $PROJECT_HOME/auth-service
-$ gradle bootRun
+$ gradle :auth-service:bootRun
 ```
 
 ### Running Report Service
 ``` sh
-$ cd $PROJECT_HOME/report-service
-$ gradle bootRun
+$ gradle :report-service:bootRun
 ```
 
 ### Running API Gateway
 ``` sh
-$ cd $PROJECT_HOME/gateway
-$ gradle bootRun
+$ gradle :gateway:bootRun
 ```
 
 API Gateway should be ran last
