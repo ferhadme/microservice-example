@@ -76,12 +76,12 @@ Assuming you run any UN*X system and have Gradle installed, follow below steps
 ### Compiling protobuf files for gRPC communication
 
 ``` sh
-$ gradle jar
+$ gradle :common:jar
 ```
 
 It will generate Java classes from protobuf files and it will be used as dependency by gRPC services for communication
 
-### Running Eureka Server 
+### Running Eureka Server
 ``` sh
 $ gradle :eureka-server:bootRun
 ```
