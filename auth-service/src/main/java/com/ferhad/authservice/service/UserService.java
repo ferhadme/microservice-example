@@ -1,7 +1,7 @@
 package com.ferhad.authservice.service;
 
-import com.ferhad.authservice.model.RoleDto;
-import com.ferhad.authservice.model.UserDto;
+import com.ferhad.authservice.dto.RoleDto;
+import com.ferhad.authservice.dto.UserDto;
 
 import java.util.List;
 

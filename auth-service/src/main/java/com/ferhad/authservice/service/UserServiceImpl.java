@@ -1,7 +1,7 @@
 package com.ferhad.authservice.service;
 
-import com.ferhad.authservice.model.RoleDto;
-import com.ferhad.authservice.model.UserDto;
+import com.ferhad.authservice.dto.RoleDto;
+import com.ferhad.authservice.dto.UserDto;
 import com.ferhad.common.*;
 import com.ferhad.common.Void;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDto saveUser(UserDto userDto) {
-        System.out.println("saveUser from serviceImpl called");
         UserRequest userRequest = UserRequest.newBuilder()
                 .setUsername(userDto.getUsername())
                 .setPassword(passwordEncoder.encode(userDto.getPassword()))

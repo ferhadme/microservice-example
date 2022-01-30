@@ -111,3 +111,28 @@ $ gradle :gateway:bootRun
 ```
 
 API Gateway should be ran last
+
+## Simple Demonstration
+- To login as Admin
+
+``` sh
+$ ./scripts/admin-login.sh
+```
+
+<img src="curl-responses/admin-login.png"/>
+
+- To save user as admin
+
+``` sh
+$ ./scripts/save-user-as-admin.sh
+```
+
+<img src="curl-responses/save-user-as-admin.png"/>
+
+- In this process Account Service (Kafka Producer) sends following message to Report Service (Kafka Consumer), which could be get using **/reports** route
+
+``` sh
+$ ./scripts/get-reports.sh
+```
+
+<img src="curl-responses/get-reports.png"/>

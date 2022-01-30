@@ -2,7 +2,7 @@ package com.ferhad.authservice.security.filter;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ferhad.authservice.model.UserDto;
+import com.ferhad.authservice.dto.UserDto;
 import com.ferhad.authservice.security.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -47,7 +47,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 Algorithm.HMAC256(JwtUtils.JWT_SECRET.getBytes())
         );
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        //new ObjectMapper().writeValue(response.getOutputStream(), tokens);
         response.setHeader("access_token", tokens.get("access_token"));
         response.setHeader("refresh_token", tokens.get("refresh_token"));
     }

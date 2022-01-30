@@ -1,4 +1,4 @@
-package com.ferhad.authservice.model;
+package com.ferhad.authservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
