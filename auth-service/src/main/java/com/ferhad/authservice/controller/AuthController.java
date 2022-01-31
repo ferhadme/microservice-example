@@ -5,11 +5,11 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ferhad.authservice.model.RoleDto;
-import com.ferhad.authservice.model.UserDto;
+import com.ferhad.authservice.dto.RoleDto;
+import com.ferhad.authservice.dto.RoleToUserFrom;
+import com.ferhad.authservice.dto.UserDto;
 import com.ferhad.authservice.security.utils.JwtUtils;
 import com.ferhad.authservice.service.UserService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -41,16 +41,15 @@ public class AuthController {
                 .body(userService.getUsers());
     }
 
-    @PostMapping("/user/save")
+    @PostMapping("/user")
     public ResponseEntity<UserDto> saveUser(@RequestBody UserDto userDto) {
-        System.out.println("saveUser called");
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/user/save").toUriString());
         return ResponseEntity
                 .created(uri)
                 .body(userService.saveUser(userDto));
     }
 
-    @PostMapping("/role/save")
+    @PostMapping("/role")
     public ResponseEntity<RoleDto> saveRole(@RequestBody RoleDto roleDto) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/role/save").toUriString());
         return ResponseEntity
@@ -58,7 +57,7 @@ public class AuthController {
                 .body(userService.saveRole(roleDto));
     }
 
-    @PostMapping("/role/addToUser")
+    @PostMapping("/role/user")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserFrom form) {
         userService.addRoleToUser(form.getUsername(), form.getRoleName());
         return ResponseEntity
@@ -66,13 +65,13 @@ public class AuthController {
                 .build();
     }
 
-    @GetMapping("/token/refresh")
+    @GetMapping("/refresh-token")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
                 String refresh_token = authorizationHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                Algorithm algorithm = Algorithm.HMAC256(JwtUtils.JWT_SECRET.getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refresh_token);
                 String username = decodedJWT.getSubject();
@@ -97,12 +96,5 @@ public class AuthController {
             throw new RuntimeException("Refresh token is missing");
         }
     }
-}
-
-
-@Data
-class RoleToUserFrom {
-    private String username;
-    private String roleName;
 }
 

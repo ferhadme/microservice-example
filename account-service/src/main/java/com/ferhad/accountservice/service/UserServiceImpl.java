@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @GrpcService
@@ -25,6 +26,7 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
         UserAcc user = UserAcc.builder()
                 .username(request.getUsername())
                 .password(request.getPassword())
+                .roles(new HashSet<>())
                 .build();
         userRepository.save(user);
         List<Role> roles = new ArrayList<>();

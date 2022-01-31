@@ -76,12 +76,12 @@ Assuming you run any UN*X system and have Gradle installed, follow below steps
 ### Compiling protobuf files for gRPC communication
 
 ``` sh
-$ gradle jar
+$ gradle :common:jar
 ```
 
 It will generate Java classes from protobuf files and it will be used as dependency by gRPC services for communication
 
-### Running Eureka Server 
+### Running Eureka Server
 ``` sh
 $ gradle :eureka-server:bootRun
 ```
@@ -111,3 +111,28 @@ $ gradle :gateway:bootRun
 ```
 
 API Gateway should be ran last
+
+## Simple Demonstration
+- To login as Admin
+
+``` sh
+$ ./scripts/admin-login.sh
+```
+
+<img src="curl-responses/admin-login.png"/>
+
+- To save user as admin
+
+``` sh
+$ ./scripts/save-user-as-admin.sh
+```
+
+<img src="curl-responses/save-user-as-admin.png"/>
+
+- In this process Account Service (Kafka Producer) sends following message to Report Service (Kafka Consumer), which could be get using **/reports** route
+
+``` sh
+$ ./scripts/get-reports.sh
+```
+
+<img src="curl-responses/get-reports.png"/>

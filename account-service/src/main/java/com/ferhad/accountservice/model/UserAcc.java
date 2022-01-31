@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,10 +22,6 @@ public class UserAcc {
     @Column(unique = true)
     private String username;
     private String password;
-/*
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
-    private Set<RoleAcc> roles;
- */
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "account_roles",

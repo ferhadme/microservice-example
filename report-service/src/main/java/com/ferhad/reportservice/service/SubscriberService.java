@@ -7,7 +7,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -23,4 +22,3 @@ public class SubscriberService {
         reportRepository.save(report);
     }
 }
-
