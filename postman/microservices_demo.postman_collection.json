@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "a4aedc11-97c7-4110-82c9-3532ac7d3b92",
+		"name": "Microservices Demo",
+		"description": "Postman Collection for Microservice Application Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Logining as Admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"pass\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8088/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": "After to login as Admin, `access_token` and `refresh_token` will be sent with corresponding headers"
+			},
+			"response": []
+		},
+		{
+			"name": "Registering new User as Admin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo5MTkxL2F1dGgvbG9naW4iLCJleHAiOjE2NDM3OTYxMDN9.guyElEGLmWMbj3bYWreJHpUKpB8Dvlrg4EoHnMdyHhY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"new_user\",\n    \"password\": \"pass\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8088/auth/user/",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"auth",
+						"user",
+						""
+					]
+				},
+				"description": "Only Admin can register new user. Firstly, `auth` header should be filled in the request with `Bearer access_token`, where `access_token` is token returned in admin login.  \nIn first registration, user roles are empty\n\nFor now, `auth` header is used instead of `Authorization` header because of filtering problem.\n\nNote that `access_token` in `auth` header is for example. Change this for new logins."
+			},
+			"response": []
+		},
+		{
+			"name": "Saving Role to User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo5MTkxL2F1dGgvbG9naW4iLCJleHAiOjE2NDM3OTc3MzZ9.2Bice3byX63GtpRigoM0U93GJjIt5ZPR5V_rRkp7s-Y",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"new_user\",\n    \"roleName\": \"ROLE_USER\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8088/auth/role/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"auth",
+						"role",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Getting all Users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "auth",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo5MTkxL2F1dGgvbG9naW4iLCJleHAiOjE2NDM3OTc3MzZ9.2Bice3byX63GtpRigoM0U93GJjIt5ZPR5V_rRkp7s-Y",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8088/auth/users",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"auth",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Getting All Reports",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8088/reports",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"reports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "To Refresh Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo5MTkxL2F1dGgvbG9naW4iLCJleHAiOjE2NDM4MDI3MjN9.PJsZUH83ABZ1wnbNNm6IOVleRp7a67qMIAtWpyyebQ0",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8088/auth/refresh-token",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"auth",
+						"refresh-token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

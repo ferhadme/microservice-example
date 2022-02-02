@@ -44,9 +44,11 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     });
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(username, null, authorities);
-
+                    System.out.println("Exception thrown here 1");
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    System.out.println("Exception thrown here 2");
                     filterChain.doFilter(request, response);
+                    System.out.println("Exception thrown here 3");
                 } catch (Exception e) {
                     response.setHeader("error", e.getMessage());
                     response.setStatus(HttpStatus.FORBIDDEN.value());
