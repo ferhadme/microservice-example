@@ -2,9 +2,17 @@ spring:
   application:
     name: report-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/microservices_jooq
+    url: jdbc:postgresql://localhost:5432/microservices
     username: ferhad
     password: Ferhad2002.
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
 
 server:
   port: 8095

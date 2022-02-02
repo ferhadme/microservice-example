@@ -1,46 +1,57 @@
 package com.ferhad.accountservice.service;
 
-import com.ferhad.accountservice.repository.AccountRepository;
+import com.ferhad.accountservice.model.RoleAcc;
+import com.ferhad.accountservice.model.UserAcc;
 import com.ferhad.accountservice.repository.RoleRepository;
+import com.ferhad.accountservice.repository.UserRepository;
 import com.ferhad.common.*;
 import com.ferhad.common.Void;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
-import nu.studer.sample.tables.pojos.Account;
-import nu.studer.sample.tables.pojos.Roles;
-import nu.studer.sample.tables.records.AccountRecord;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @GrpcService
 @RequiredArgsConstructor
 public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
-    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PublisherService publisherService;
 
     @Override
     public void saveUser(UserRequest request, StreamObserver<UserResponse> responseObserver) {
-        accountRepository.save(request);
-
+        UserAcc user = UserAcc.builder()
+                .username(request.getUsername())
+                .password(request.getPassword())
+                .roles(new HashSet<>())
+                .build();
+        userRepository.save(user);
+        List<Role> roles = new ArrayList<>();
+        user.getRoles().forEach(role -> {
+            roles.add(Role.newBuilder().setRoleName(role.getName()).build());
+        });
         UserResponse userResponse = UserResponse.newBuilder()
-                .setUsername(request.getUsername())
-                .setPassword(request.getPassword())
-                .addAllRoles(new ArrayList<>())
+                .setUsername(user.getUsername())
+                .setPassword(user.getPassword())
+                .addAllRoles(roles)
                 .build();
         responseObserver.onNext(userResponse);
         responseObserver.onCompleted();
         publisherService.sendMessage("user_registration",
-                "User (" + request.getUsername() + ") has been registered");
+                "User (" + user.getUsername() + ") has been registered");
     }
 
     @Override
     public void saveRole(Role request, StreamObserver<Role> responseObserver) {
-        roleRepository.save(request);
+        RoleAcc role = RoleAcc.builder()
+                .name(request.getRoleName())
+                .build();
+        roleRepository.save(role);
         Role roleResponse = Role.newBuilder()
-                .setRoleName(request.getRoleName())
+                .setRoleName(role.getName())
                 .build();
         responseObserver.onNext(roleResponse);
         responseObserver.onCompleted();
@@ -48,8 +59,9 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
 
     @Override
     public void addRoleToUser(RoleToUser request, StreamObserver<Void> responseObserver) {
-        accountRepository.saveRole(request.getUsername(), request.getRoleName());
-
+        RoleAcc roleDb = roleRepository.findByName(request.getRoleName());
+        UserAcc userDb = userRepository.findByUsername(request.getUsername());
+        userDb.getRoles().add(roleDb);
         Void v = Void.newBuilder()
                 .build();
         responseObserver.onNext(v);
@@ -58,17 +70,15 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
 
     @Override
     public void getUser(UserName request, StreamObserver<UserResponse> responseObserver) {
-        AccountRecord accountRecord = accountRepository.findByUsername(request.getUsername());
-        List<Roles> roles = roleRepository.getRolesOfUser(accountRecord.getAccountId());
-        List<Role> rolesResponse = new ArrayList<>();
-        for (Roles role : roles) {
-            rolesResponse.add(Role.newBuilder().setRoleName(role.getRoleName()).build());
+        UserAcc userAcc = userRepository.findByUsername(request.getUsername());
+        List<Role> roles = new ArrayList<>();
+        for (RoleAcc role : userAcc.getRoles()) {
+            roles.add(Role.newBuilder().setRoleName(role.getName()).build());
         }
-
         UserResponse userResponse = UserResponse.newBuilder()
-                .setUsername(accountRecord.getUsername())
-                .setPassword(accountRecord.getPassword())
-                .addAllRoles(rolesResponse)
+                .setUsername(userAcc.getUsername())
+                .setPassword(userAcc.getPassword())
+                .addAllRoles(roles)
                 .build();
         responseObserver.onNext(userResponse);
         responseObserver.onCompleted();
@@ -76,27 +86,25 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
 
     @Override
     public void getUsers(Void request, StreamObserver<AllUsers> responseObserver) {
-        List<Account> accounts = accountRepository.findAll();
+        List<UserAcc> userAccs = userRepository.findAll();
         List<UserResponse> userResponses = new ArrayList<>();
-        for (Account account : accounts) {
-            List<Role> rolesResponse = new ArrayList<>();
-            roleRepository.getRolesOfUser(account.getAccountId()).forEach(role -> {
-                rolesResponse.add(
-                        Role.newBuilder()
-                                .setRoleName(role.getRoleName())
-                                .build()
-                );
+        userAccs.forEach(userAcc -> {
+            List<Role> roles = new ArrayList<>();
+            userAcc.getRoles().forEach(role -> {
+                roles.add(Role.newBuilder().setRoleName(role.getName()).build());
             });
-
             userResponses.add(
                     UserResponse.newBuilder()
-                            .setUsername(account.getUsername())
-                            .setPassword(account.getPassword())
-                            .addAllRoles(rolesResponse)
+                            .setUsername(userAcc.getUsername())
+                            .setPassword(userAcc.getPassword())
+                            .addAllRoles(roles)
                             .build()
             );
-        }
-        responseObserver.onNext(AllUsers.newBuilder().addAllUsers(userResponses).build());
+        });
+        AllUsers allUsers = AllUsers.newBuilder()
+                .addAllUsers(userResponses)
+                .build();
+        responseObserver.onNext(allUsers);
         responseObserver.onCompleted();
     }
 }
