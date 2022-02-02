@@ -1,4 +1,4 @@
-package com.ferhad.gateway;
+package com.ferhad.gateway.filters;
 
 import javax.servlet.http.HttpServletRequest;
 import com.netflix.zuul.context.RequestContext;
