@@ -5,6 +5,8 @@
 ## Description
 Sample Demo Microservice application built with Spring Stack(Spring Boot, Spring Security), Netflix OSS (Zuul Api Gateway, Eureka Discovery Service), gRPC, PostgreSQL, Jooq, Apache Kafka, JWT, and etc.
 
+This Application uses Jooq for data access layer, Hibernate implementation is also available in branch named hibernate-impl
+
 ## Installation
 Apache ZooKeeper and Apache Kafka should be installed in the system.
 - [Apache ZooKeeper Download](https://zookeeper.apache.org/releases.html)
@@ -103,6 +105,7 @@ Because of being discovery server, Eureka Server should be ran first among all m
 
 ### Running Account Service
 ``` sh
+$ gradle :account-service:generateJooq
 $ gradle :account-service:bootRun
 ```
 
@@ -115,6 +118,7 @@ $ gradle :auth-service:bootRun
 
 ### Running Report Service
 ``` sh
+$ gradle :report-service:generateJooq
 $ gradle :report-service:bootRun
 ```
 
