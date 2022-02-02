@@ -3,7 +3,7 @@
 <img src="architecture.jpeg"/>
 
 ## Description
-Sample Demo Microservice application built with Spring Stack(Spring Boot, Spring Data, Spring Security), Netflix OSS (Zuul Api Gateway, Eureka Discovery Service), gRPC, PostgreSQL, Apache Kafka, JWT, and etc.
+Sample Demo Microservice application built with Spring Stack(Spring Boot, Spring Security), Netflix OSS (Zuul Api Gateway, Eureka Discovery Service), gRPC, PostgreSQL, Jooq, Apache Kafka, JWT, and etc.
 
 ## Installation
 Apache ZooKeeper and Apache Kafka should be installed in the system.
@@ -80,8 +80,8 @@ Application uses **Jooq** instead of **Hibernate** for data access layer which u
 
 ``` sh
 $ createdb microservices_jooq
-$ psql microservices_jooq -a -f schema.sql
-$ psql microservices_jooq -a -f data.sql
+$ psql microservices_jooq -a -f db/schema.sql
+$ psql microservices_jooq -a -f db/data.sql
 ```
 
 **Note that in above commands, I omit -u flag. Because I have postgresql user named with my shell user name. If you use different user name from shell user name, explicitly define -u flag**
