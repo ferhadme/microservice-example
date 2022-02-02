@@ -73,6 +73,19 @@ Assuming you run any UN*X system and have Gradle installed, follow below steps
 % ./bin/kafka-server-start.sh config/server.properties
 ```
 
+### Configuring PostgreSQL
+Application uses **Jooq** instead of **Hibernate** for data access layer which uses database-first paradigm. That's why database should be configured before application starts
+
+*schema.sql* and *data.sql* are available in db directory. *schema.sql* is for creation of tables. *data.sql* is for initial datas of application
+
+``` sh
+$ createdb microservices_jooq
+$ psql microservices_jooq -a -f schema.sql
+$ psql microservices_jooq -a -f data.sql
+```
+
+**Note that in above commands, I omit -u flag. Because I have postgresql user named with my shell user name. If you use different user name from shell user name, explicitly define -u flag**
+
 ### Compiling protobuf files for gRPC communication
 
 ``` sh
@@ -113,6 +126,11 @@ $ gradle :gateway:bootRun
 API Gateway should be ran last
 
 ## Simple Demonstration
+You can either use Postman to test behavior of microservices, or go with cURL scripts if you have UN\*X system
+### Sample Postman Collection
+Just export *microservices_demo.postman_collection.json* to Postman
+
+### cURL Scripts
 - To login as Admin
 
 ``` sh

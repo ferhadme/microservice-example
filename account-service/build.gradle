@@ -1,7 +1,17 @@
+buildscript {
+	configurations['classpath'].resolutionStrategy.eachDependency {
+		if (requested.group == 'org.jooq') {
+			useVersion '3.12.4'
+		}
+	}
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.6.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+
+	id 'nu.studer.jooq' version '6.0.1'
 }
 
 group = 'com.ferhad'
@@ -24,14 +34,72 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'org.postgresql:postgresql'
 
+	implementation 'org.springframework.boot:spring-boot-starter-jooq'
 	implementation 'net.devh:grpc-server-spring-boot-starter:2.12.0.RELEASE'
+	jooqGenerator 'org.postgresql:postgresql:42.3.1'
+
 	implementation project(':common')
 
 	implementation 'org.springframework.kafka:spring-kafka'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
+}
+
+jooq {
+	version = '3.15.1'  // the default (can be omitted)
+	edition = nu.studer.gradle.jooq.JooqEdition.OSS  // the default (can be omitted)
+
+	configurations {
+		main {  // name of the jOOQ configuration
+			generateSchemaSourceOnCompilation = true  // default (can be omitted)
+
+			generationTool {
+				jdbc {
+					driver = 'org.postgresql.Driver'
+					url = 'jdbc:postgresql://localhost:5432/microservices_jooq'
+					user = 'ferhad'
+					password = 'Ferhad2002.'
+					properties {
+						property {
+							key = 'ssl'
+							value = 'require'
+						}
+					}
+				}
+				generator {
+					name = 'org.jooq.codegen.DefaultGenerator'
+					database {
+						name = 'org.jooq.meta.postgres.PostgresDatabase'
+						inputSchema = 'public'
+						forcedTypes {
+							forcedType {
+								name = 'varchar'
+								includeExpression = '.*'
+								includeTypes = 'JSONB?'
+							}
+							forcedType {
+								name = 'varchar'
+								includeExpression = '.*'
+								includeTypes = 'INET'
+							}
+						}
+					}
+					generate {
+						deprecated = false
+						records = true
+						immutablePojos = true
+						fluentSetters = true
+					}
+					target {
+						packageName = 'nu.studer.sample'
+						directory = 'build/generated-src/jooq/main'  // default (can be omitted)
+					}
+					strategy.name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+				}
+			}
+		}
+	}
 }
 
 dependencyManagement {
@@ -42,4 +110,8 @@ dependencyManagement {
 
 test {
 	useJUnitPlatform()
+}
+
+tasks.named('generateJooq').configure {
+	allInputsDeclared = true
 }
