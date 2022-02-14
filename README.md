@@ -31,10 +31,10 @@ Handles all database-related processes such as account creation, account validat
 
 Plays as gRPC server to Auth Service
 
-Plays as Producer in Producer/Consumer relation in Kafka. For simple demonstration, just produces messages like "Username with 'username' has been registered" 
+Plays as Producer in Producer/Consumer relation in Kafka. For simple demonstration, just produces messages like "Username with 'username' has been registered"
 
 ### Auth Service (auth-service)
-Handles all authentication/authorization work. 
+Handles all authentication/authorization work.
 
 Plays as gRPC client to Account Service
 
@@ -58,9 +58,9 @@ All of endpoints can be accessed by only appropriate accounts. For example, only
 ## Ports
 - Eureka Server: 8761
 - API Gateway: 8088
-- Account Service 
-  -- 8090 for Spring Boot
-  -- 9898 for gRPC Server
+- Account Service
+  - 8090 for Spring Boot
+  - 9898 for gRPC Server
 - Auth Service: 9191
 - Report Service: 8095
 
@@ -86,7 +86,7 @@ $ psql microservices_jooq -a -f db/schema.sql
 $ psql microservices_jooq -a -f db/data.sql
 ```
 
-**Note that in above commands, I omit -u flag. Because I have postgresql user named with my shell user name. If you use different user name from shell user name, explicitly define -u flag**
+**Note that in above commands, I omit -U flag. Because I have postgresql user named with my shell user name. If you use different user name from shell user name, explicitly define -U flag**
 
 ### Compiling protobuf files for gRPC communication
 
